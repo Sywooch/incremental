@@ -9,6 +9,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+//For RBAC
+use yii\filters\AccessControl;
+use common\models\User;
+
 /**
  * IncrementableController implements the CRUD actions for Incrementable model.
  */
@@ -17,6 +21,20 @@ class IncrementableController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return User::userIsBryant();
+                        }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -62,13 +80,19 @@ class IncrementableController extends Controller
     {
         $model = new Incrementable();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $date = new \DateTime();
+            $model->created_at = $date->getTimestamp();
+            $model->created_by = Yii::$app->user->identity->id;
+            $model->updated_at = $model->created_at;
+            $model->updated_by = $model->created_by;
+            if($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -81,13 +105,17 @@ class IncrementableController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $date = new \DateTime();
+            $model->updated_at = $date->getTimestamp();
+            $model->updated_by = Yii::$app->user->identity->id;
+            if($model->save())
+                return $this->redirect(['view', 'id' => $model->id]);
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

@@ -68,4 +68,20 @@ class Incrementable extends \yii\db\ActiveRecord
             'updated_by' => 'Updated By',
         ];
     }
+    
+    public function getCostForLevel($level, $precision = 0)
+    {
+        if($level == 0)
+            return $this->initialCost;
+        return round((.86 * $this->initialCost) * exp(.1385 * $level), $precision);
+    }
+    
+    public function getProductionForLevel($level, $precision = 0)
+    {
+        if($level == 0)
+            return 0;
+        if($level == 1)
+            return $this->initialProduction;
+        return round($level * $this->initialProduction, $precision);
+    }
 }
