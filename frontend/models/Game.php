@@ -85,4 +85,35 @@ class Game extends \yii\db\ActiveRecord
         }
         return $pointIncrease;
     }
+    
+    //Purchase an incrementable based on the current user level.
+    //  Returns true if we had sufficient funds. Returns false if the purchase was denied due to insufficient funds.
+    public function purchaseIncrementable($incrementableId)
+    {
+        $incrementable = Incrementable::findOne($incrementableId);
+        //Calculate the current level of the given incrementable. If no connection exists, we don't own this incrementable.
+        $currentLevel = 0;
+        $connection = IncrementableConnections::find()->where(['owner' => $this->user, 'incrementable' => $incrementableId])->one();
+        if($connection)
+            $currentLevel = $connection->level;
+        //Determine if we can buy this upgrade.
+        $cost = $incrementable->getCostForLevel($currentLevel);
+        if($this->points >= $cost)
+        {
+            $this->points -= $cost;
+            //Create our new connection (if needed).
+            if($connection)
+                $connection->level++;
+            else {
+                $connection = new IncrementableConnections();
+                $connection->owner = $this->user;
+                $connection->incrementable = $incrementableId;
+                $connection->level = 1;
+            }
+            $connection->save();
+            return true;
+        }
+        else
+            return false;
+    }
 }
