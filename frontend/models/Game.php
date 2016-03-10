@@ -4,6 +4,9 @@ namespace app\models;
 
 use Yii;
 
+use app\models\IncrementableConnections;
+use app\models\Incrementable;
+
 /**
  * This is the model class for table "game".
  *
@@ -72,7 +75,14 @@ class Game extends \yii\db\ActiveRecord
     //Calculate our points per update interval.
     public function getPointsPerUpdate()
     {
-//TODO return an actual value.
-        return 1;
+        $pointIncrease = 0;
+        //Get all incrementables.
+        $allIncrementables = IncrementableConnections::find()->where(['owner' => Yii::$app->user->identity->id])->all();
+        foreach($allIncrementables as $connection)
+        {
+            $incrementable = Incrementable::findOne($connection->incrementable);
+            $pointIncrease += $incrementable->getProductionForLevel($connection->level);
+        }
+        return $pointIncrease;
     }
 }
