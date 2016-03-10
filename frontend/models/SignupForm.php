@@ -5,6 +5,9 @@ use common\models\User;
 use yii\base\Model;
 use Yii;
 
+//For Game creation.
+use app\models\Game;
+
 /**
  * Signup form
  */
@@ -53,6 +56,20 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         
-        return $user->save() ? $user : null;
+        if($user->save())
+        {
+            //Create new game for this user.
+            $game = new Game();
+            $date = new \DateTime();
+            $game->user = $user->id;
+            $game->created_at = $date->getTimestamp();
+            $game->updated_at = $game->created_at;
+            $game->points = 0;
+            $game->lastIncrease = 0;
+            $game->save();
+            return $user;
+        }
+        else
+            return null;
     }
 }
