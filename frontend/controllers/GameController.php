@@ -70,6 +70,13 @@ class GameController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+    
+    public function actionViewGame($id)
+    {
+        return $this->render('viewUser', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 
     /**
      * Creates a new Game model.
