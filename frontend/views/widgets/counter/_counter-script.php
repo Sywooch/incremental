@@ -9,7 +9,7 @@
 use yii\web\View;
 ?>
 
-<?php $this->registerJsFile("//code.jquery.com/jquery-1.12.0.min.js", ['position' => View::POS_HEAD]); ?>
+<?php $this->registerJsFile("//code.jquery.com/jquery-2.2.1.min.js", ['position' => View::POS_HEAD]); ?>
 <?php $this->registerJsFile("js/incremental-counter.js", ['position' => View::POS_END]); ?>
 <div class='counter'></div>
 <script>

@@ -116,4 +116,14 @@ class Game extends \yii\db\ActiveRecord
         else
             return false;
     }
+    
+    //Get the level of the given incrementable for this game.
+    public function getLevelOfIncrementable($incrementableId)
+    {
+        $connection = IncrementableConnections::find()->where(['incrementable' => $incrementableId, 'owner' => $this->user])->one();
+        if($connection)
+            return $connection->level;
+        else
+            return 0;
+    }
 }

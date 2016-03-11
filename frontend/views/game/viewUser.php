@@ -9,7 +9,6 @@ use common\models\User;
 /* @var $model app\models\Game */
 
 $this->title = User::findOne($model->user)->username;
-$this->params['breadcrumbs'][] = ['label' => 'Games', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $model->updatePoints();

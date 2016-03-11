@@ -13,6 +13,9 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\User;
 
+use app\models\Incrementable;
+use app\models\IncrementableConnections;
+
 /**
  * GameController implements the CRUD actions for Game model.
  */
@@ -75,6 +78,26 @@ class GameController extends Controller
     {
         return $this->render('viewUser', [
             'model' => $this->findModel($id),
+        ]);
+    }
+    
+    public function actionViewIncrementables($id)
+    {
+        $game = $this->findModel($id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Incrementable::find(),
+        ]);
+        $dataProvider2 = new ActiveDataProvider([
+            'query' => IncrementableConnections::find()->where(['owner' => $game->user]),
+        ]);
+        $userIsOwner = false;
+        if(!Yii::$app->user->isGuest && ($game->user == Yii::$app->user->identity->id))
+            $userIsOwner = true;
+
+        return $this->render('viewIncrementables', [
+            'model' => $game,
+            'incrementableProvider' => $dataProvider,
+            'userIsOwner' => $userIsOwner,
         ]);
     }
 
