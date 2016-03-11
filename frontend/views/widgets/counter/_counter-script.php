@@ -9,21 +9,22 @@
 use yii\web\View;
 ?>
 
-<?php $this->registerJsFile("//code.jquery.com/jquery-2.2.1.min.js", ['position' => View::POS_HEAD]); ?>
-<?php $this->registerJsFile("js/incremental-counter.js", ['position' => View::POS_END]); ?>
+<?php //$this->registerJsFile("//code.jquery.com/jquery-2.2.1.min.js", ['position' => View::POS_HEAD]); ?>
+<?php $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-counter.js", ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
 <div class='counter'></div>
-<script>
+<?php $script = "
     (function($) {
         $(document).ready(function () {
             //Initialize Count
             $('.counter').incrementalcounter();          
             var incrementalcounter = $('.counter').data('incrementalcounter');
             //Set Properties
-            incrementalcounter.setCount(<?=$currentCount?>);
-            incrementalcounter.setIncrement(<?=$currentCountIncrement?>);
-            incrementalcounter.setSecondsBetweenUpdate(<?=$secondsBetweenUpdate?>);
-            incrementalcounter.setClassOfCountDisplay('<?=$displayClass?>');
+            incrementalcounter.setCount($currentCount);
+            incrementalcounter.setIncrement($currentCountIncrement);
+            incrementalcounter.setSecondsBetweenUpdate($secondsBetweenUpdate);
+            incrementalcounter.setClassOfCountDisplay('$displayClass');
         });
-    })(jQuery);
-</script>
+    })(jQuery);" ;
+$this->registerJs($script, View::POS_READY);
+?>
 

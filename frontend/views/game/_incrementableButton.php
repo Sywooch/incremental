@@ -10,7 +10,7 @@ $pointsPerUpdate = $incrementable->getProductionForLevel($level);
 $costToUpgrade = $incrementable->getCostForLevel($level);
 
 $this->registerCssFile("css/components-rounded.min.css");
-$this->registerJsFile("js/jquery.bpopup.min.js", ['position' => yii\web\View::POS_HEAD]);
+$this->registerJsFile(Yii::getAlias("@web") . "/js/jquery.bpopup.min.js", ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
 <div class="col-md-8 col-md-offset-2 col-xs-12">
@@ -30,16 +30,19 @@ $this->registerJsFile("js/jquery.bpopup.min.js", ['position' => yii\web\View::PO
             </div>
             <div class="desc"><?= $pointsPerUpdate ?>PPS</div>
         </div>
-        <a class="more" href="#" onclick='$("#<?=$incrementable->id?>-popup").bPopup()'> Details...
+        <a class="more" href="#" onclick='$("#<?=$incrementable->id?>-popup").bPopup();'> Details...
             <i class="m-icon-swapright m-icon-white"></i>
         </a>
     </div>
     <!--END BUTTON------------------------------------------------------------->
     
     <!--POPUP------------------------------------------------------------------>
-    <div id="<?=$incrementable->id?>-popup" style="left: 361px; position: absolute; top: 602.5px; z-index: 9999; opacity: 0; display: none;">
-        <span class="button b-close"><span>X</span></span>
-        If you can't get it up use<br><span class="logo">bPopup</span>
+    <div id="<?=$incrementable->id?>-popup" class='well' style="left: 361px; position: absolute; top: 602.5px; z-index: 9999; opacity: 0; display: none;">
+        <div class="row-fluid">
+        <div col-xs-9><?= $level > 0 ? $incrementable->name : "???" ?></div>
+        <div col-xs-2><a class="btn btn-default b-close">X</a></div>
+        </div>
+        If you can't get it up use<br>bPopup
     </div>
     <?php if(!$isOwner) { ?>
         <?php } //End if($isOwner) ?>
