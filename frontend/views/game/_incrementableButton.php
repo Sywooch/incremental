@@ -30,14 +30,14 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/jquery.bpopup.min.js", ['depe
             </div>
             <div class="desc"><?= $pointsPerUpdate ?>PPS</div>
         </div>
-        <a class="more" href="#" onclick='$("#<?=$incrementable->id?>-popup").bPopup();'> Details...
+        <a class="more" href="#" onclick='$("#<?=$incrementable->id?>-popup").bPopup({position: [0, 0]});'> Details...
             <i class="m-icon-swapright m-icon-white"></i>
         </a>
     </div>
     <!--END BUTTON------------------------------------------------------------->
     
     <!--POPUP------------------------------------------------------------------>
-    <div id="<?=$incrementable->id?>-popup" class='well' style="left: 361px; position: absolute; top: 602.5px; z-index: 9999; opacity: 0; display: none;">
+    <div id="<?=$incrementable->id?>-popup" class='well' style="z-index: 9999; opacity: 0; display: none;">
         <div class="row-fluid">
         <div col-xs-9><?= $level > 0 ? $incrementable->name : "???" ?></div>
         <div col-xs-2><a class="btn btn-default b-close">X</a></div>
