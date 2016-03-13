@@ -7,6 +7,9 @@ use Yii;
 use app\models\IncrementableConnections;
 use app\models\Incrementable;
 
+use app\models\PremiumPackage;
+use Omnipay\Omnipay;
+
 /**
  * This is the model class for table "game".
  *
@@ -63,7 +66,7 @@ class Game extends \yii\db\ActiveRecord
         $secondsPassed = $date->getTimestamp() - $this->updated_at;
         $numUpdates = floor($secondsPassed / $secondsInInterval);
         //Calculate our point increase.
-        $pointsPerUpdate = $this->getPointsPerUpdate();
+        $pointsPerUpdate = $this->getPointsPerUpdate() * $this->efficiency;
         $pointIncrease = $pointsPerUpdate * $numUpdates;
         //Update our model.
         $this->points += $pointIncrease;
@@ -126,5 +129,61 @@ class Game extends \yii\db\ActiveRecord
             return $connection->level;
         else
             return 0;
+    }
+    
+    //Purchase a premium package. Returns true on a successful purchase.
+    public function purchasePremiumPackage($packageId)
+    {
+        $package = PremiumPackage::findOne($packageId);
+        //Check if package exists.
+        if(!$package)
+            return false;
+        //Check if package costs points.
+        if($package->costPoints > 0)
+        {
+            //Attempt purchase.
+            if($this->points >= $package->costPoints)
+            {
+                $this->points -= $package->costPoints;
+                $this->premium += $package->premiumGained;
+                $this->save();
+                return true;
+            }
+            else
+                return false;
+        }
+        //Pay for the package with real money.
+        $purchaseInfo = [
+            'cancelUrl' => 'http://localhost/Incremental/frontend/web',
+            'returnUrl' => 'http://localhost/Incremental/frontend/web/game',
+            'name' => $package->name,
+            'description' => $package->description,
+            'amount' => $package->costReal,
+            'currency' => 'USD'
+        ];
+        $success = Game::postPayment($purchaseInfo, $package->costReal);
+        if($success)
+            echo "====TRUE";
+        else 
+            echo "====FALSE";
+    }
+    
+    //Post a paypal payment. Returns true if purchase was successful.
+    public function postPayment($purchaseInfo, $amount)
+    {
+        //Setup Gateway.
+        $gateway = Omnipay::create('PayPal_Express');
+        $gateway->setUsername('bjacksondeveloper@gmail.com');
+        $gateway->setPassword('Stephanie3');
+        $gateway->setSignature('bryantmakesprogtest');
+        $gateway->setTestMode(true);
+        //Send purchase.
+        $response = $gateway->completePurchase($purchaseInfo)->send();
+        //Interpret response.
+        $responseRaw = $response->getData();
+        if(isset($responseRaw['PAYMENTINFO_0_ACK']) && $responseRaw['PAYENTINFO_0_ACK'] == 'Success')
+            return true;
+        else
+            return false;
     }
 }

@@ -3,20 +3,14 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-use common\models\User;
-
 /* @var $this yii\web\View */
-/* @var $model app\models\Game */
+/* @var $model app\models\PremiumProduct */
 
-$this->title = User::findOne($model->user)->username;
-$this->params['breadcrumbs'][] = ['label' => 'Games', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Premium Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
-$model->updatePoints();
-
-$model->purchasePremiumPackage(1);
 ?>
-<div class="game-view">
+<div class="premium-product-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,21 +24,18 @@ $model->purchasePremiumPackage(1);
             ],
         ]) ?>
     </p>
-    
-    <?= $this->render('/widgets/counter/_mainCounter', [
-        'game' => $model,
-    ]) ?>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
-            'user',
-            'created_at',
-            'updated_at',
-            'points',
-            'lastIncrease',
+            'name',
+            'description',
+            'image',
+            'costPremium',
+            'pointsGained',
+            'efficiencyGained',
         ],
     ]) ?>
-    
+
 </div>
