@@ -11,9 +11,6 @@ class m160310_003430_create_table_incrementable extends Migration
             //Description
             'name' => $this->string()->notNull(),
             'description' => $this->text()->notNull(),
-            'urlIcon' => $this->string()->notNull(),
-            'urlBio' => $this->string()->notNull(),
-            'urlArt' => $this->string()->notNull(),
             //Mechanics
             'initialCost' => $this->integer()->notNull(),
             'growthCost' => $this->double()->notNull(),
