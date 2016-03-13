@@ -46,7 +46,7 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
     
     <!--POPUP------------------------------------------------------------------>
     <div id="<?=$incrementable->id?>-popup" class='col-xs-12' style="z-index: 9999; opacity: 0; display: none;">
-        <div class="well col-md-6 col-md-offset-3 col-xs-12">
+        <div class="well col-md-6 col-md-offset-3 col-xs-12 inc-popup">
             <div class="row">
                 <div class='col-xs-11'><h3><span class="name-<?=$incrementable->id?>"><?= $level > 0 ? $incrementable->name : "???" ?></span></h3></div>
                 <div class='col-xs-1'><a class="btn btn-default b-close">X</a></div>

@@ -39,3 +39,7 @@ body{
     float:left;
     visibility:hidden;
 }
+
+.inc-popup {
+    margin-top:5%;
+}
