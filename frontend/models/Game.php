@@ -153,15 +153,16 @@ class Game extends \yii\db\ActiveRecord
                 return false;
         }
         //Pay for the package with real money.
-        $purchaseInfo = [
-            'cancelUrl' => 'http://localhost/Incremental/frontend/web',
-            'returnUrl' => 'http://localhost/Incremental/frontend/web/game',
-            'name' => $package->name,
-            'description' => $package->description,
-            'amount' => $package->costReal,
-            'currency' => 'USD'
+        $cardInfo = [
+            'type' => 'visa',
+            'number' => '4737029024482946',
+            'expireMonth' => '10',
+            'expireYear' => '2016',
+            'cvv2' => '428',
+            'firstName' => 'Bryant',
+            'lastName' => 'Jackson'
         ];
-        $success = Game::postPayment($purchaseInfo, $package->costReal);
+        $success = Game::postPayment($cardInfo, $package);
         if($success)
             echo "====TRUE";
         else 
@@ -169,21 +170,72 @@ class Game extends \yii\db\ActiveRecord
     }
     
     //Post a paypal payment. Returns true if purchase was successful.
-    public function postPayment($purchaseInfo, $amount)
+    public function postPayment($cardInfo, $package)
     {
         //Setup Gateway.
-        $gateway = Omnipay::create('PayPal_Express');
-        $gateway->setUsername('bjacksondeveloper@gmail.com');
-        $gateway->setPassword('Stephanie3');
-        $gateway->setSignature('bryantmakesprogtest');
-        $gateway->setTestMode(true);
-        //Send purchase.
-        $response = $gateway->completePurchase($purchaseInfo)->send();
-        //Interpret response.
-        $responseRaw = $response->getData();
-        if(isset($responseRaw['PAYMENTINFO_0_ACK']) && $responseRaw['PAYENTINFO_0_ACK'] == 'Success')
-            return true;
-        else
+        $gateway = new \PayPal\Rest\ApiContext(
+            new \PayPal\Auth\OAuthTokenCredential(
+                'AcGvb0wlfd1_ixOO_wkVKK_DDuBtMnMHE2NRNwHKl_Qqnmjol44yAG77c8FTNVwM8ydYPspKfSkcPsVL',
+                'EM6sUWx-X5Rbul18aHJCy5byq9jTVS3j5yeRqtrSdXulOVevz1QzMBLsc4kJAj1oPm0wuJbA63odOac2'
+            )
+        );
+        //Setup Card.
+        $card = new \PayPal\Api\CreditCard();
+        $card->setType($cardInfo['type'])
+                ->setNumber($cardInfo['number'])
+                ->setExpireMonth($cardInfo['expireMonth'])
+                ->setExpireYear($cardInfo['expireYear'])
+                ->setCvv2($cardInfo['cvv2'])
+                ->setFirstName($cardInfo['firstName'])
+                ->setLastName($cardInfo['lastName']);
+        //Setup Funding Instrument
+        $fi = new \PayPal\Api\FundingInstrument();
+        $fi->setCreditCard($card);
+        //Setup Payer
+        $payer = new \PayPal\Api\Payer();
+        $payer->setPaymentMethod("credit_card")
+                ->setFundingInstruments([$fi]);
+        //Setup Item
+        $item = new \PayPal\Api\Item();
+        $item->setName($package->name)
+                ->setDescription($package->description)
+                ->setCurrency('USD')
+                ->setQuantity(1)
+                ->setTax(0.0)
+                ->setPrice($package->costReal);
+        $itemList = new \PayPal\Api\ItemList();
+        $itemList->setItems([$item]);
+        //Setup Order Details
+        $details = new \PayPal\Api\Details();
+        $details->setShipping(0.0)
+                ->setTax(0.0)
+                ->setSubtotal($package->costReal);
+        //Setup Charge Amount
+        $amount = new \PayPal\Api\Amount();
+        $amount->setCurrency('USD')
+                ->setTotal($package->costReal)
+                ->setDetails($details);
+        //Setup Transaction
+        $transaction = new \PayPal\Api\Transaction();
+        $transaction->setAmount($amount)
+                ->setItemList($itemList)
+                ->setDescription("BryantMakesPrograms.com")
+                ->setInvoiceNumber(uniqid());
+        //Setup Payment
+        $payment = new \PayPal\Api\Payment();
+        $payment->setIntent("sale")
+                ->setPayer($payer)
+                ->setTransactions([$transaction]);
+        //Setup Request
+        $request = clone $payment;
+        //Attempt Payment
+        try {
+            $payment->create($gateway);
+        } catch (Exception $ex) {
+            echo "====ERROR CREATING PAYMENT<\br>";
             return false;
+        }
+        ResultPrinter::printResult('Create Payment Using Credit Card', 'Payment', $payment->getId(), $request, $payment);
+        return true;
     }
 }

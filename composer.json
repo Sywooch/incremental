@@ -18,7 +18,8 @@
         "yiisoft/yii2": ">=2.0.6",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "omnipay/paypal": "~2.0"
+        "omnipay/paypal": "~2.0",
+        "paypal/rest-api-sdk-php": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
