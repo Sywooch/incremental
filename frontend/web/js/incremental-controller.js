@@ -13,10 +13,12 @@
  *  production-# : Level of given incrementable #.
  */
 (function ( $ ) {
-    $.updateIncrementableDisplay = function(id, level, cost, production) {
+    $.updateIncrementableDisplay = function(id, level, cost, production, name, urlBio) {
         $(".level-"+id).text(level);
         $(".cost-"+id).text(cost);
         $(".production-"+id).text(production);
+        $(".name-"+id).text(name);
+        $(".image-bio-"+id).attr("src", urlBio);
     };
     
     $.updateCounterDisplay = function(incrementalcounter, points, production) {
@@ -41,7 +43,9 @@
                     var newLevel = data[1];
                     var newCost = data[2];
                     var newProduction = data[3];
-                    $.updateIncrementableDisplay(incrementableId, newLevel, newCost, newProduction);
+                    var newName = data[6];
+                    var newBioImage = data[7];
+                    $.updateIncrementableDisplay(incrementableId, newLevel, newCost, newProduction, newName, newBioImage);
                     //Update counter info.
                     var newPointLevel = data[4];
                     var newProductionLevel = data[5];

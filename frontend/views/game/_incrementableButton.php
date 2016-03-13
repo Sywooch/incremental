@@ -23,8 +23,13 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
             <i class="fa fa-bar-chart-o"></i>
         </div>
         <div class='details-left'>
+            
+            <div class='details-icon'>
+                <img src="<?=$incrementable->urlIcon?>"/>
+            </div>
+            
             <div class='number'>
-                <?= $level > 0 ? $incrementable->name : "???" ?>
+                <span class="name-<?=$incrementable->id?>"><?= $level > 0 ? $incrementable->name : "???" ?></span>
             </div>
         </div>
         <div class="details">
@@ -43,12 +48,12 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
     <div id="<?=$incrementable->id?>-popup" class='col-xs-12' style="z-index: 9999; opacity: 0; display: none;">
         <div class="well col-md-6 col-md-offset-3 col-xs-12">
             <div class="row">
-                <div class='col-xs-11'><h3><?= $level > 0 ? $incrementable->name : "???" ?></h3></div>
+                <div class='col-xs-11'><h3><span class="name-<?=$incrementable->id?>"><?= $level > 0 ? $incrementable->name : "???" ?></span></h3></div>
                 <div class='col-xs-1'><a class="btn btn-default b-close">X</a></div>
             </div>
             <div class="row">
-                <div class="col-xs-10 col-xs-offset-1">
-                    <?= $level > 0 ? "IMAGE HERE" : "MYSTERY IMAGE HERE" ?>
+                <div class="col-xs-12">
+                    <img src="<?= $level > 0 ? $incrementable->urlBio : $incrementable->urlBioUnknown ?>" class="col-xs-6 col-xs-offset-3 image-bio-<?=$incrementable->id?>"/>
                 </div>
             </div>
             <div class="row">

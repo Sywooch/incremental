@@ -13,9 +13,7 @@ class m160310_003430_create_table_incrementable extends Migration
             'description' => $this->text()->notNull(),
             //Mechanics
             'initialCost' => $this->integer()->notNull(),
-            'growthCost' => $this->double()->notNull(),
             'initialProduction' => $this->integer()->notNull(),
-            'growthProduction' => $this->integer()->notNull(),
             //Log
             'created_at' => $this->integer()->notNull(),
             'created_by' => $this->integer()->notNull(),

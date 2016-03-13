@@ -192,6 +192,8 @@ class GameController extends Controller
         $newProduction = $incrementable->getProductionForLevel($newLevel);
         $newGamePoints = $game->points;
         $newGameProduction = $game->getPointsPerUpdate();
-        echo json_encode([$message, $newLevel, $newCost, $newProduction, $newGamePoints, $newGameProduction]); exit;
+        $newName = $incrementable->name;
+        $newBio = $incrementable->urlBio;
+        echo json_encode([$message, $newLevel, $newCost, $newProduction, $newGamePoints, $newGameProduction, $newName, $newBio]); exit;
     }
 }

@@ -14,9 +14,7 @@ use Yii;
  * @property string $urlBio
  * @property string $urlArt
  * @property integer $initialCost
- * @property double $growthCost
  * @property integer $initialProduction
- * @property integer $growthProduction
  * @property integer $created_at
  * @property integer $created_by
  * @property integer $updated_at
@@ -38,11 +36,10 @@ class Incrementable extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'urlIcon', 'urlBio', 'urlArt', 'initialCost', 'growthCost', 'initialProduction', 'growthProduction', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'required'],
+            [['name', 'description', 'urlIcon', 'urlIconUnknown', 'urlBio', 'urlBioUnknown', 'urlArt', 'initialCost', 'initialProduction', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'required'],
             [['description'], 'string'],
-            [['initialCost', 'initialProduction', 'growthProduction', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['growthCost'], 'number'],
-            [['name', 'urlIcon', 'urlBio', 'urlArt'], 'string', 'max' => 255]
+            [['initialCost', 'initialProduction', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['name', 'urlIcon', 'urlBio', 'urlArt', 'urlIconUnknown', 'urlBioUnknown'], 'string', 'max' => 255]
         ];
     }
 
@@ -59,9 +56,7 @@ class Incrementable extends \yii\db\ActiveRecord
             'urlBio' => 'Url Bio',
             'urlArt' => 'Url Art',
             'initialCost' => 'Initial Cost',
-            'growthCost' => 'Growth Cost',
             'initialProduction' => 'Initial Production',
-            'growthProduction' => 'Growth Production',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
             'updated_at' => 'Updated At',
