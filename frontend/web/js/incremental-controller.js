@@ -18,8 +18,15 @@
         $(".cost-"+id).text(cost);
         $(".production-"+id).text(production);
     };
+    
+    $.updateCounterDisplay = function(incrementalcounter, points, production) {
+        incrementalcounter.setCount(points);
+        incrementalcounter.updateCountDisplay();
+        incrementalcounter.setIncrement(production);
+        $(".counter-increment").text(production);
+    }
  
-    $.purchaseIncrementable = function(incrementableId, gameId, baseurl) {
+    $.purchaseIncrementable = function(incrementableId, gameId, baseurl, incrementalcounter) {
         $.ajax({
             type: "POST",
             url: baseurl + "/game/purchase-incrementable",
@@ -38,6 +45,7 @@
                     //Update counter info.
                     var newPointLevel = data[4];
                     var newProductionLevel = data[5];
+                    $.updateCounterDisplay(incrementalcounter, newPointLevel, newProductionLevel);
                 }
             },
             error: function (data) {

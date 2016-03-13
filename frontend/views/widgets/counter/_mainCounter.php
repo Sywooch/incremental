@@ -11,7 +11,7 @@ $displayClass = 'counterDisplay';
 
 <div class='jumbotron'>
     <h1 class='counterDisplay'><?=$currentCount?></h1>
-    <p class='lead'><?=$currentCountIncrement?> per second</p>
+    <p class='lead'><span class='counter-increment'><?=$currentCountIncrement?></span> per second</p>
 </div>
 
 <?= $this->render('/widgets/counter/_counter-script', [
