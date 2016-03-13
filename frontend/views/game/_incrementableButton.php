@@ -48,7 +48,7 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
             </div>
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
-                    IMAGE HERE
+                    <?= $level > 0 ? "IMAGE HERE" : "MYSTERY IMAGE HERE" ?>
                 </div>
             </div>
             <div class="row">
