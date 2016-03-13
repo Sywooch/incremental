@@ -166,4 +166,32 @@ class GameController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    //Performs purchase and returns information for the ajax folder.
+    //Called by ajax script in 'js/incremental-controller.js'. Never navigated to.
+    public function actionPurchaseIncrementable()
+    {
+        
+        //Get our game.
+        $game = Game::findOne(intval($_POST['game']));
+        $incrementableId = $_POST['incrementable'];
+        //$game = Game::findOne(1);
+        //$incrementableId = 2;
+        //Perform purchase.
+        $purchaseWasSuccessful = $game->purchaseIncrementable($incrementableId);
+        //Determine our error/success status.
+        $message = "null";
+        if($purchaseWasSuccessful)
+            $message = "success";
+        else
+            $message = "failure";
+        //Determine our new info for this upgrade.
+        $newLevel = $game->getLevelOfIncrementable($incrementableId);
+        $incrementable = Incrementable::findOne($incrementableId);
+        $newCost = $incrementable->getCostForLevel($newLevel);
+        $newProduction = $incrementable->getProductionForLevel($newLevel);
+        $newGamePoints = $game->points;
+        $newGameProduction = $game->getPointsPerUpdate();
+        echo json_encode([$message, $newLevel, $newCost, $newProduction, $newGamePoints, $newGameProduction]); exit;
+    }
 }

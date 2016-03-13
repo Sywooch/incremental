@@ -101,6 +101,7 @@ class Game extends \yii\db\ActiveRecord
         if($this->points >= $cost)
         {
             $this->points -= $cost;
+            $this->save();
             //Create our new connection (if needed).
             if($connection)
                 $connection->level++;
