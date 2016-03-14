@@ -230,12 +230,12 @@ class Game extends \yii\db\ActiveRecord
         $request = clone $payment;
         //Attempt Payment
         try {
-            $payment->create($gateway);
+            $result = $payment->create($gateway);
         } catch (Exception $ex) {
             echo "====ERROR CREATING PAYMENT<\br>";
             return false;
         }
-        ResultPrinter::printResult('Create Payment Using Credit Card', 'Payment', $payment->getId(), $request, $payment);
+        echo $result->getState();
         return true;
     }
 }
