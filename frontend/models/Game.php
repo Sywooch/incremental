@@ -9,6 +9,7 @@ use app\models\Incrementable;
 
 use app\models\PremiumPackage;
 use Omnipay\Omnipay;
+use app\models\PremiumProduct;
 
 /**
  * This is the model class for table "game".
@@ -37,7 +38,8 @@ class Game extends \yii\db\ActiveRecord
     {
         return [
             [['user', 'created_at', 'updated_at'], 'required'],
-            [['user', 'created_at', 'updated_at', 'points', 'lastIncrease'], 'integer']
+            [['user', 'created_at', 'updated_at', 'points', 'lastIncrease', 'premium'], 'integer'],
+            [['efficiency'], 'number']
         ];
     }
 
@@ -66,7 +68,7 @@ class Game extends \yii\db\ActiveRecord
         $secondsPassed = $date->getTimestamp() - $this->updated_at;
         $numUpdates = floor($secondsPassed / $secondsInInterval);
         //Calculate our point increase.
-        $pointsPerUpdate = $this->getPointsPerUpdate() * $this->efficiency;
+        $pointsPerUpdate = $this->getPointsPerUpdate();
         $pointIncrease = $pointsPerUpdate * $numUpdates;
         //Update our model.
         $this->points += $pointIncrease;
@@ -86,7 +88,7 @@ class Game extends \yii\db\ActiveRecord
             $incrementable = Incrementable::findOne($connection->incrementable);
             $pointIncrease += $incrementable->getProductionForLevel($connection->level);
         }
-        return $pointIncrease;
+        return floor($pointIncrease * $this->efficiency);
     }
     
     //Purchase an incrementable based on the current user level.
@@ -131,6 +133,26 @@ class Game extends \yii\db\ActiveRecord
             return 0;
     }
     
+    //Purchase a premium product. Returns true on a successful purchase.
+    public function purchasePremiumProduct($productId)
+    {
+        $product = PremiumProduct::findOne($productId);
+        //Check if product exists.
+        if(!$product)
+            return false;
+        //Attempt purchase.
+        if($this->premium >= $product->costPremium)
+        {
+            $this->premium -= $product->costPremium;
+            $this->efficiency += $product->efficiencyGained;
+            $this->points += $product->pointsGained;
+            $this->save();
+            return true;
+        }
+        else
+            return false;
+    }
+    
     //Purchase a premium package. Returns true on a successful purchase.
     public function purchasePremiumPackage($packageId)
     {
@@ -164,7 +186,11 @@ class Game extends \yii\db\ActiveRecord
         ];
         $success = Game::postPayment($cardInfo, $package);
         if($success)
+        {
             echo "====TRUE";
+            $this->premium += $package->premiumGained;
+            $this->save();
+        }
         else 
             echo "====FALSE";
     }

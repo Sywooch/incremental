@@ -14,7 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $model->updatePoints();
 
-$model->purchasePremiumPackage(1);
+//$model->purchasePremiumPackage(1);
+$success = $model->purchasePremiumProduct(1);
+if($success)
+    echo "-=-=-SUCCESS";
+else
+    echo "=-=-=FAILURE";
 ?>
 <div class="game-view">
 

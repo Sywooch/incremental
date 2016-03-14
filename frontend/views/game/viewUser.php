@@ -17,6 +17,8 @@ $model->updatePoints();
 
     <h1><?= Html::encode($this->title) ?></h1>
     
+    <?= $this->render('/premium-package/_popup') ?>
+    
     <?= $this->render('/widgets/counter/_mainCounter', [
         'game' => $model,
     ]) ?>
