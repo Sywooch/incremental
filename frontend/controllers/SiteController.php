@@ -13,6 +13,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
+use common\models\User;
+use app\models\Game;
+
 /**
  * Site controller
  */
@@ -72,7 +75,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $game = null;
+        if(!Yii::$app->user->isGuest)
+            $game = Game::find()->where(['user' => Yii::$app->user->identity->id])->one();
+        return $this->render('index', ['model' => $game]);
     }
 
     /**

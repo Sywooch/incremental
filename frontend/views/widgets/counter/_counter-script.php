@@ -9,9 +9,8 @@
 use yii\web\View;
 ?>
 
-<?php //$this->registerJsFile("//code.jquery.com/jquery-2.2.1.min.js", ['position' => View::POS_HEAD]); ?>
 <?php $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-counter.js", ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
-<div class='counter'></div>
+
 <?php $script = "
     (function($) {
         $(document).ready(function () {
@@ -26,5 +25,6 @@ use yii\web\View;
         });
     })(jQuery);" ;
 $this->registerJs($script, View::POS_READY);
-?>
 
+?>
+<span class='counter'></span>

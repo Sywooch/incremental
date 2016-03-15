@@ -5,6 +5,12 @@ body {
     background-color:white;
 }
 
+.vertical-center {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 html,
 body {
     height: 100%;
