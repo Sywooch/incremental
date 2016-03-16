@@ -7,6 +7,7 @@ $currentCount = $game->points;
 $currentCountIncrement = $game->getPointsPerUpdate();
 $secondsBetweenUpdate = 1;
 $displayClass = 'simple-counter';
+$currentClickIncrement = $game->getPointsPerClick();
 ?>
 
 <span class='simple-counter'><?=$currentCount?></span>
@@ -16,5 +17,6 @@ $displayClass = 'simple-counter';
     'currentCountIncrement' => $currentCountIncrement,
     'secondsBetweenUpdate' => $secondsBetweenUpdate,
     'displayClass' => $displayClass,
+    'currentClickIncrement' => $currentClickIncrement,
 ]) ?>
 

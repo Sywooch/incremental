@@ -7,6 +7,7 @@ $currentCount = $game->points;
 $currentCountIncrement = $game->getPointsPerUpdate();
 $secondsBetweenUpdate = 1;
 $displayClass = 'counterDisplay';
+$currentClickIncrement = $game->getPointsPerClick();
 ?>
 
 <div class='jumbotron'>
@@ -19,5 +20,6 @@ $displayClass = 'counterDisplay';
     'currentCountIncrement' => $currentCountIncrement,
     'secondsBetweenUpdate' => $secondsBetweenUpdate,
     'displayClass' => $displayClass,
+    'currentClickIncrement' => $currentClickIncrement,
 ]) ?>
 

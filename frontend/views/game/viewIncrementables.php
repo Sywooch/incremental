@@ -27,6 +27,16 @@ $model->updatePoints();
     <?= $this->render('/widgets/counter/_mainCounter', [
         'game' => $model,
     ]) ?>
+    
+    <?php if($userIsOwner) { ?>
+    <a href="#" onclick="$.purchaseTapUpgrade(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))" class='btn btn-default'>
+        +<span class='clicker-production'><?=$model->getPointsPerClick()?></span>
+        (<span class="clicker-cost"><?=$model->getCostToUpgradeClick()?></span>)
+    </a>
+    <a href="#" onclick="$.performTap(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))" class='btn btn-default'>
+        +<span class='clicker-production'><?=$model->getPointsPerClick()?></span>
+    </a>
+    <?php } //End if($userIsOwner) ?>
 
     <?php foreach($incrementableProvider->models as $incrementable) { ?>
         <?= $this->render('_incrementableButton', [

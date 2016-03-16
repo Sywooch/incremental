@@ -184,12 +184,11 @@ class GameController extends Controller
     //Called by ajax script in 'js/incremental-controller.js'. Never navigated to.
     public function actionPurchaseIncrementable()
     {
-        
         //Get our game.
         $game = Game::findOne(intval($_POST['game']));
+        //Update game points.
+        $game->updatePoints();
         $incrementableId = $_POST['incrementable'];
-        //$game = Game::findOne(1);
-        //$incrementableId = 2;
         //Perform purchase.
         $purchaseWasSuccessful = $game->purchaseIncrementable($incrementableId);
         //Determine our error/success status.
@@ -208,5 +207,40 @@ class GameController extends Controller
         $newName = $incrementable->name;
         $newBio = $incrementable->urlBio;
         echo json_encode([$message, $newLevel, $newCost, $newProduction, $newGamePoints, $newGameProduction, $newName, $newBio]); exit;
+    }
+    
+    //Performs purchase of tap upgrade and returns information for the ajax.
+    //Called by ajax script in 'js/incremental-controller.js'. Never navigated to.
+    public function actionPurchaseTapUpgrade()
+    {
+        //Get our game.
+        $game = Game::findOne(intval($_POST['game']));
+        //Update game points.
+        $game->updatePoints();
+        //Perform purchase.
+        $purchaseWasSuccessful = $game->upgradeTap();
+        //Determine our error/success stats.
+        $message = "null";
+        if($purchaseWasSuccessful)
+            $message = "success";
+        else
+            $message = "failure";
+        //Determine our new info for this upgrade.
+        $newTapCost = $game->getCostToUpgradeClick();
+        $newTapValue = $game->getPointsPerClick();
+        $newPoints = $game->points;
+        echo json_encode([$message, $newTapCost, $newTapValue, $newPoints]); exit;
+    }
+    
+    public function actionPerformTap()
+    {
+        //Get our game.
+        $game = Game::findOne(intval($_POST['game']));
+        //Store our tap for later.
+        $game->tapCount += 1;
+        $game->save();
+        //Calculate our tap value.
+        $tapValue = $game->getPointsPerClick();
+        echo json_encode([$tapValue]); exit;
     }
 }

@@ -38,7 +38,7 @@ class Game extends \yii\db\ActiveRecord
     {
         return [
             [['user', 'created_at', 'updated_at'], 'required'],
-            [['user', 'created_at', 'updated_at', 'points', 'lastIncrease', 'premium'], 'integer'],
+            [['user', 'created_at', 'updated_at', 'points', 'lastIncrease', 'premium', 'tap'], 'integer'],
             [['efficiency'], 'number']
         ];
     }
@@ -63,6 +63,8 @@ class Game extends \yii\db\ActiveRecord
     //      EG: $secondsInInterval = 60 => Update once per minute.
     public function updatePoints($secondsInInterval = 1)
     {
+        //Perform any banked taps.
+        $this->performTaps();
         //Calculate how many updates to perform.
         $date = new \DateTime();
         $secondsPassed = $date->getTimestamp() - $this->updated_at;
@@ -89,6 +91,45 @@ class Game extends \yii\db\ActiveRecord
             $pointIncrease += $incrementable->getProductionForLevel($connection->level);
         }
         return floor($pointIncrease * $this->efficiency);
+    }
+    
+    //Calculate our points per click.
+    public function getPointsPerClick()
+    {
+        if($this->tap == 0)
+            return 1;
+        return 100 * pow(10, $this->tap - 1);
+    }
+    
+    //Calculate cost to upgrade tap.
+    public function getCostToUpgradeClick()
+    {
+        return 50000 * pow(10, $this->tap - 1);
+    }
+    
+    //Upgrade our tap. Returns true if we had sufficient funds.
+    public function upgradeTap()
+    {
+        $costToUpgrade = $this->getCostToUpgradeClick();
+        if($this->points >= $costToUpgrade)
+        {
+            $this->points -= $costToUpgrade;
+            $this->tap += 1;
+            $this->save();
+            return true;
+        }
+        else
+            return false;
+    }
+    
+    //Perform a tap.
+    public function performTaps()
+    {
+        $numTaps = $this->tapCount;
+        $tapIncrement = $this->getPointsPerClick();
+        $this->points += $tapIncrement * $numTaps;
+        $this->tapCount = 0;
+        $this->save();
     }
     
     //Purchase an incrementable based on the current user level.
