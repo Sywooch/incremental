@@ -5,6 +5,12 @@ body {
     background-color:white;
 }
 
+/*
+.portlet-title {
+    background-image: url("../img/chevron.jpg");
+}
+*/
+
 .vertical-center {
     display: inline-block;
     vertical-align: middle;

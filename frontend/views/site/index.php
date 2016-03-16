@@ -7,7 +7,7 @@ use app\models\Game;
 
 $this->title = '10 Billion Bottles Of Beer';
 
-$colorClass = 'red';
+$colorClass = 'red-haze';
 ?>
 <div class="site-index">
 
