@@ -1,0 +1,86 @@
+/* 
+   Setup in cleaner logic
+   Horizontal items:
+*/
+.frame.horizontal{ 
+  width: 100%;
+  height: 160px; 
+  padding: 0;
+}
+
+.frame.horizontal ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 50px;
+}
+
+.frame.horizontal { 
+  margin: 0; 
+  padding: 0; 
+  height: 100%; 
+  list-style: none;
+}
+
+.frame.horizontal li { 
+  float: left; 
+  margin: 0 5px 0 0; 
+  padding: 0; 
+  /*width: 120px;*/
+  height: 100%; 
+}
+
+.scrollbar { 
+  width: 100%; 
+  height: 10px; 
+}
+
+.scrollbar .handle {
+    width: 100px; /* overriden if dynamicHandle: 1 */
+    height: 100%;
+    background: #222;
+}
+
+/* 
+   Setup in cleaner logic
+   Vertical items:
+*/
+.frame.vertical { 
+  padding: 0; 
+  width: 300px; 
+  height: 400px; 
+}
+
+.frame.vertical { 
+  margin: 0; 
+  padding: 0; 
+  width: 100%; 
+  list-style: none; 
+}
+
+.frame.vertical li { 
+  float: left; 
+  margin: 0 0 5px 0; 
+  padding: 0; 
+  width: 100%;
+}
+
+.scrollbar.vertical { 
+  width: 10px; 
+  height: 400px; 
+}
+
+.scrollbar.vertical .handle {
+    width: 100%;
+    height: 100px; /* overriden if dynamicHandle: 1 */
+    background: #222;
+}
+
+/* Controls */
+.controls { margin: 10px 0; text-align: center; }
+
+/* One Item Per Frame example*/
+.oneperframe { height: 400px; line-height: 390px; }
+.oneperframe ul li { width: 1140px; }
+.oneperframe ul li.active { background: #000; }
