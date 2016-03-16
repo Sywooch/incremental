@@ -77,8 +77,14 @@ class SiteController extends Controller
     {
         $game = null;
         if(!Yii::$app->user->isGuest)
+        {
             $game = Game::find()->where(['user' => Yii::$app->user->identity->id])->one();
-        return $this->render('index', ['model' => $game]);
+            return $this->render('index', ['model' => $game]);
+        }
+        else
+        {
+            return $this->render('welcome');
+        }
     }
 
     /**
