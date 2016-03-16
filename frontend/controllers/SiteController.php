@@ -83,7 +83,7 @@ class SiteController extends Controller
         }
         else
         {
-            return $this->render('welcome');
+            return $this->render('welcome', ['model' => $game]);
         }
     }
 
