@@ -26,7 +26,7 @@ class GameController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view', 'create', 'update', 'delete'],
+                'only' => ['index', 'view', 'create', 'update', 'delete', 'view-world'],
                 'rules' => [
                     [
                         'actions' => ['index', 'view', 'create', 'update', 'delete'],
@@ -35,6 +35,11 @@ class GameController extends Controller
                         'matchCallback' => function ($rule, $action) {
                             return User::userIsBryant();
                         }
+                    ],
+                    [
+                        'actions' => ['view-world'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -71,6 +76,14 @@ class GameController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+    
+    public function actionViewWorld()
+    {
+        $model = Game::find()->where(['user'=>Yii::$app->user->identity->id])->one();
+        return $this->render('viewUser', [
+            'model' => $model,
         ]);
     }
     
