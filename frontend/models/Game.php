@@ -82,7 +82,7 @@ class Game extends \yii\db\ActiveRecord
     {
         $pointIncrease = 0;
         //Get all incrementables.
-        $allIncrementables = IncrementableConnections::find()->where(['owner' => Yii::$app->user->identity->id])->all();
+        $allIncrementables = IncrementableConnections::find()->where(['owner' => $this->user])->all();
         foreach($allIncrementables as $connection)
         {
             $incrementable = Incrementable::findOne($connection->incrementable);
@@ -174,25 +174,10 @@ class Game extends \yii\db\ActiveRecord
             else
                 return false;
         }
-        //Pay for the package with real money.
-        $cardInfo = [
-            'type' => 'visa',
-            'number' => '4737029024482946',
-            'expireMonth' => '10',
-            'expireYear' => '2016',
-            'cvv2' => '428',
-            'firstName' => 'Bryant',
-            'lastName' => 'Jackson'
-        ];
-        $success = Game::postPayment($cardInfo, $package);
-        if($success)
+        else if($package->costReal > 0)
         {
-            echo "====TRUE";
-            $this->premium += $package->premiumGained;
-            $this->save();
+            
         }
-        else 
-            echo "====FALSE";
     }
     
     //Post a paypal payment. Returns true if purchase was successful.

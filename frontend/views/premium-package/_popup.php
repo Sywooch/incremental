@@ -47,7 +47,10 @@ $allPackages = PremiumPackage::find()->all();
                             </div>
                         </div>
                         <div class='portlet-body'>
-                            <a class='btn btn-success col-xs-10 col-xs-offset-1'>Get Rich!</a>
+                            <a class='btn btn-success col-xs-10 col-xs-offset-1' href="#" onclick='$("#paypal-popup-<?=$package->id?>").bPopup();'>Get Rich!</a>
+                            <div id='paypal-popup-<?=$package->id?>' class='well' style="display:none;">
+                                <?= $this->render('/widgets/paypal/_button', ['packageId' => $package->id]) ?>
+                            </div>
                         </div>
                     </div>
                 </div>
