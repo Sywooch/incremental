@@ -75,7 +75,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $game = null;
+        $game = false;
         if(!Yii::$app->user->isGuest)
         {
             $game = Game::find()->where(['user' => Yii::$app->user->identity->id])->one();

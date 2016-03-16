@@ -24,7 +24,7 @@ $colorClass = 'red-haze';
                 </div>
             </div>
             <div class="portlet-body text-center">
-                <?php if($model == null) { ?>
+                <?php if(!$model) { ?>
                     <p class="lead">Brew beer, unite the dwarves, and conquer the world!</p>
                     <a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get Brewin'!</a>
                 <?php } else { ?>
@@ -51,7 +51,7 @@ $colorClass = 'red-haze';
                 </div>
             </div>
             <div class="portlet-body">
-                <?php if($model == null) { ?>
+                <?php if(!$model) { ?>
                         Display an ad.
                         <br/>
                         <br/>
