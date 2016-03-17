@@ -4,11 +4,12 @@
 // packageId - The id for the package we are buying.
 
 use app\models\PremiumPackage;
+use yii\helpers\Url;
 $package = PremiumPackage::findOne($packageId);
 
 //returnUrl: The url to return to when the purchase is complete.
 //$returnUrl = "http://www.google.com";
-$returnUrl = Yii::getAlias("@base") . "/frontend/web/premium-package/thank-you";
+$returnUrl = Url::base() . "/frontend/web/premium-package/thank-you";
 ?>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
