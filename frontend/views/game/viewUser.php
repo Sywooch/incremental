@@ -31,11 +31,36 @@ if(!Yii::$app->user->isGuest)
 
     <h1><?= Html::encode($this->title) ?></h1>
     
+    <div>
     <?= $this->render('/premium-package/_popup') ?>
+    </div>
+
+    <!--COUNTER WIDGET--------------------------------------------------------->
+    <div class="portlet solid light col-md-8 col-md-offset-2 col-xs-12">
+        <div class="portlet-body">
+            <div class="tab-content">
+                <?= $this->render('/widgets/counter/_gameCounter', [
+                    'game' => $model,
+                ]) ?>
+            </div>
+        </div>
+    </div>
+    <!--END COUNTER WIDGET----------------------------------------------------->
     
-    <?= $this->render('/widgets/counter/_mainCounter', [
-        'game' => $model,
-    ]) ?>
+    <!--GAME SCREEN------------------------------------------------------------>
+    <div class="portlet solid light col-md-8 col-md-offset-2 col-xs-12">
+        <div class="portlet-title tabbable-line">
+            <div class="caption">
+                <span class="caption-subject bold font-yellow-lemon uppercase">BREWERY TITLE IF WE GO THAT ROUTE</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="tab-content">
+                GAME GOES HERE
+            </div>
+        </div>
+    </div>
+    <!--END GAME SCREEN-------------------------------------------------------->
 
     <!--CONTROL WIDGET--------------------------------------------------------->
     <div class="portlet solid light col-md-8 col-md-offset-2 col-xs-12">
