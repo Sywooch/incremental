@@ -16,7 +16,7 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/jquery.bpopup.min.js", ['depe
 $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", ['depends' => [\yii\web\JqueryAsset::className()]]);
 ?>
 
-<div class="col-md-8 col-md-offset-2 col-xs-12">
+<div class="col-md-10 col-md-offset-1 col-xs-12">
     <!--BUTTON----------------------------------------------------------------->
     <div class="dashboard-stat purple-plum">
         <div class="visual">
@@ -45,7 +45,7 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
     <!--END BUTTON------------------------------------------------------------->
     
     <!--POPUP------------------------------------------------------------------>
-    <div id="<?=$incrementable->id?>-popup" class='col-xs-12' style="z-index: 9999; opacity: 0; display: none;">
+    <display id="<?=$incrementable->id?>-popup" class='col-xs-12' style="z-index: 9999; opacity: 0; display: none;">
         <div class="well col-md-6 col-md-offset-3 col-xs-12 inc-popup">
             <div class="row">
                 <div class='col-xs-11'><h3><span class="name-<?=$incrementable->id?>"><?= $level > 0 ? $incrementable->name : "???" ?></span></h3></div>
@@ -69,7 +69,7 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
                 <a class="btn btn-success" onclick="$.purchaseIncrementable(<?=$incrementable->id?>, <?=$game->id?>, '<?= Yii::$app->request->baseUrl ?>', $('.counter').data('incrementalcounter'))"><?= $level > 0 ? "Upgrade" : "Purchase" ?></a>
             </div>
         </div>
-    </div>
+    </display>
     <?php if(!$isOwner) { ?>
         <?php } //End if($isOwner) ?>
     <!--END POPUP-------------------------------------------------------------->
