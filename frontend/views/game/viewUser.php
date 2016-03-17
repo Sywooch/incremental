@@ -62,13 +62,38 @@ if(!Yii::$app->user->isGuest)
     </div>
     <!--END GAME SCREEN-------------------------------------------------------->
 
-    <!--CONTROL WIDGET--------------------------------------------------------->
+    <?php if($isOwner) { ?>
+    <!--CLICKER WIDGET--------------------------------------------------------->
     <div class="portlet solid light col-md-8 col-md-offset-2 col-xs-12">
-        <div class="portlet-title tabbable-line">
-            <div class="caption">
-                <span class="caption-subject bold font-yellow-lemon uppercase">DELETE THIS AND EXPAND TABS</span>
+        <div class="portlet-body">
+            <div class="tab-content">
+                <div class='col-md-6 col-xs-12'>
+                    <a href='#' class='btn btn-success col-xs-12' onclick="$.performTap(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))"><h3>Brew!</h3></a>
+                    <p class='lead'>
+                        <span style='vertical-align:bottom;'>
+                            Produces: <span class='clicker-production' style='vertical-align:bottom;'><?=$model->getPointsPerClick()?></span>
+                            <?= $this->render('/widgets/icon/bottle', ['type' => 'basic']) ?>
+                        </span>
+                </div>
+                <div class='col-md-6 col-xs-12 text-right'>
+                    <a href='#' class='btn btn-primary col-xs-12' onclick="$.purchaseTapUpgrade(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))"><h3>Upgrade</h3></a>
+                    <p class='lead'>
+                        <span style='vertical-align:bottom;'>
+                            Costs: <span class='clicker-cost' style='vertical-align:bottom;'><?=$model->getCostToUpgradeClick()?></span>
+                            <?= $this->render('/widgets/icon/bottle', ['type' => 'basic']) ?>
+                        </span>
+                    </p>
+                </div>
             </div>
-            <ul class="nav nav-tabs">
+        </div>
+    </div>
+    <!--END CLICKER WIDGET----------------------------------------------------->
+    <?php } //End if($isOwner) ?>
+    
+    <!--CONTROL WIDGET--------------------------------------------------------->
+    <div class="portlet box solid light col-md-8 col-md-offset-2 col-xs-12">
+        <div class="portlet-title tabbable-line">
+            <ul class="nav nav-tabs nav-justified">
                 <li class="active">
                     <a href="#portlet_tab1" data-toggle="tab">INCREMENTABLES</a>
                 </li>
