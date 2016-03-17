@@ -57,11 +57,15 @@ if(!Yii::$app->user->isGuest)
         </div>
         <div class="portlet-body">
             <div class="tab-content">
+                <!--INCREMENTABLE TAB-->
                 <div class="tab-pane active" id="portlet_tab1">
-                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><div class="scroller" style="height: 200px; overflow: hidden; width: auto;" data-initialized="1">
+                    <div class="slimScrollDiv">
+                        <div class="scroller" data-initialized="1">
                         <?= $this->render('_tab_incrementables', ['model' => $model, 'incrementableProvider' => $dataProvider, 'userIsOwner' => $isOwner]) ?>
-                    </div><div class="slimScrollBar" style="width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 104.439px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
+                        </div>
+                    </div>
                 </div>
+                <!--END INCREMENTABLE TAB-->
                 <div class="tab-pane" id="portlet_tab2">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><div class="scroller" style="height: 200px; overflow: hidden; width: auto;" data-initialized="1">
                         <h4>ACHIEVEMENTS</h4>
