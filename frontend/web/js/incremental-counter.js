@@ -28,6 +28,7 @@
         var count = 0;
         var increment = 0;
         var secondsBetweenUpdate = 1;
+        var incrementPerClick = 0;
         //Control Class Names
         var countDisplay = "";
         //Methods.
@@ -42,13 +43,22 @@
         };
         this.setClassOfCountDisplay = function(value) {
             countDisplay = value;
-        }
+        };
+        this.setIncrementPerClick = function(value) {
+            incrementPerClick = value;
+        };
         this.updateCountDisplay = function() {
             if(countDisplay != "")
                 $("." + countDisplay).text(count);
         };
         this.incrementCount = function() {
             count += increment;
+        };
+        this.incrementClick = function() {
+            count += incrementPerClick;
+        };
+        this.addToCount = function(value) {
+            count += value;
         };
         window.setInterval(this.incrementCount, secondsBetweenUpdate * 1000); //Convert secondsBetweenUpdate to milliseconds.
         window.setInterval(this.updateCountDisplay, secondsBetweenUpdate * 1000); //Convert secondsBetweenUpdate to milliseconds.

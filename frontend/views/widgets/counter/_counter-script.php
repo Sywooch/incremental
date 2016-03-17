@@ -6,6 +6,7 @@
 //  currentCount - Where to start our counter.
 //  currentCountIncrement - How much to increment our counter by.
 //  secondsBetweenUpdate - How long to wait before updating.
+//  currentClickIncrement - Amount to increment by every time we click.
 use yii\web\View;
 ?>
 
@@ -22,6 +23,7 @@ use yii\web\View;
             incrementalcounter.setIncrement($currentCountIncrement);
             incrementalcounter.setSecondsBetweenUpdate($secondsBetweenUpdate);
             incrementalcounter.setClassOfCountDisplay('$displayClass');
+            incrementalcounter.setIncrementPerClick($currentClickIncrement);
         });
     })(jQuery);" ;
 $this->registerJs($script, View::POS_READY);

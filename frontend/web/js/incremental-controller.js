@@ -21,6 +21,11 @@
         $(".image-bio-"+id).attr("src", urlBio);
     };
     
+    $.updateClickDisplay = function(cost, production) {
+        $(".clicker-cost").text(cost);
+        $(".clicker-production").text(production);
+    };
+    
     $.updateCounterDisplay = function(incrementalcounter, points, production) {
         incrementalcounter.setCount(points);
         incrementalcounter.updateCountDisplay();
@@ -51,6 +56,50 @@
                     var newProductionLevel = data[5];
                     $.updateCounterDisplay(incrementalcounter, newPointLevel, newProductionLevel);
                 }
+            },
+            error: function (data) {
+                alert("Purchase attempt met server-side issues. If this error occurs, something is very wrong. Please notify administration.");
+            }
+        });
+    };
+    
+    $.purchaseTapUpgrade = function(gameId, baseurl, incrementalcounter) {
+        $.ajax({
+           type: "POST",
+            url: baseurl + "/game/purchase-tap-upgrade",
+            data: {game:gameId},
+            dataType: "json", // Set the data type so jQuery can parse it for you
+            success: function (data) {
+                //message: 'success', 'failure', 'null'
+                var message = data[0];
+                if(message == 'success')
+                {
+                    var tapCost = data[1];
+                    var tapProduction = data[2];
+                    var newPoints = data[3];
+                    //Update counter info.
+                    incrementalcounter.setIncrementPerClick(tapProduction);
+                    $.updateClickDisplay(tapCost, tapProduction);
+                    incrementalcounter.setCount(newPoints);
+                    incrementalcounter.updateCountDisplay();
+                }
+            },
+            error: function (data) {
+                alert("Purchase attempt met server-side issues. If this error occurs, something is very wrong. Please notify administration.");
+            }
+        });
+    };
+    
+    $.performTap = function(gameId, baseurl, incrementalcounter) {
+        $.ajax({
+           type: "POST",
+            url: baseurl + "/game/perform-tap",
+            data: {game:gameId},
+            dataType: "json", // Set the data type so jQuery can parse it for you
+            success: function (data) {
+                var tapValue = data[0];
+                incrementalcounter.addToCount(tapValue);
+                incrementalcounter.updateCountDisplay();
             },
             error: function (data) {
                 alert("Purchase attempt met server-side issues. If this error occurs, something is very wrong. Please notify administration.");
