@@ -136,4 +136,17 @@ class PremiumPackageController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    //Determine if purchase went through unmolested. If so, award premium. If not,
+    //  award proportionate premium. Be sure to display PayPal required message.
+    //  Redirect back to game view.
+    public function actionThankYou()
+    {
+        $paymentAmount = $_POST['payment_gross'];
+        $packageId = $_POST['item_number'];
+        
+        echo "AMOUNT: " . $paymentAmount . "<br/>";
+        echo "PACKAGE: " . $packageId . "<br/>";
+        return;
+    }
 }
