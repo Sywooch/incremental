@@ -9,6 +9,11 @@ html {
   overflow-y: scroll;
 }
 
+.btn-green {
+    background-image: url("../img/button/success.png");
+    background-size: 100% 100%;
+}
+
 /*
 .portlet-title {
     background-image: url("../img/chevron.jpg");

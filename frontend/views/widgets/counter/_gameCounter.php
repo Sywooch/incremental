@@ -10,13 +10,25 @@ $displayClass = 'gameCounterDisplay';
 $currentClickIncrement = $game->getPointsPerClick();
 ?>
 
-<div class='col-xs-12 row'>
+<div class='row'>
     <div class='col-md-6 col-xs-12'>
-        <h1 class='gameCounterDisplay'><?=$currentCount?></h1>
+        <h1>
+            <?= $this->render('/widgets/icon/bottle', ['type'=>'basic', 'size'=>1.5]) ?>
+            <span class='gameCounterDisplay' style='vertical-align:bottom;'><?=$currentCount?></span>
+        </h1>
         <p class='lead'><span class='counter-increment'><?=$currentCountIncrement?></span> per second</p>
     </div>
     <div class='col-md-6 col-xs-12 text-right'>
-        <h2><?=$game->premium?> PREMIUM</h2>
+        <h1>
+            <span style='vertical-align:bottom;'><?=$game->premium?></span>
+            <?= $this->render('/widgets/icon/bottle', ['type'=>'premium', 'size'=>1.5]) ?>
+        </h1>
+        <!--Premium Purchase Button -->
+        <p class='lead'>
+            <?= $this->render('/premium-package/_popup', [
+                'buttonContent' => '<a href="#">Get More!</a>'
+            ])?>
+        </p>
     </div>
 </div>
 
