@@ -2,9 +2,16 @@
 /* 
  * Displays a popup that contains all the packages available for purchase.
  * We are using the Candy Crush Saga purchase page as a sample.
+ * 
+ * Pass In: 
+ *  buttonContent - How our button should display.
  */
 use app\models\PremiumPackage;
 use yii\helpers\Url;
+
+//Default button.
+if(!isset($buttonContent))
+    $buttonContent = "<a class='btn btn-success' href='#'>+</a>";
 
 //Include CSS and JS.
 $this->registerCssFile(Yii::getAlias("@web") . "/css/components-rounded.min.css");
@@ -14,7 +21,7 @@ $allPackages = PremiumPackage::find()->all();
 ?>
 
 <!--BUTTON----------------------------------------------------------------->
-<a class="btn btn-success" href="#" onclick='$("#packages-popup").bPopup({position: [0, 0]});'>+</a>
+<span onclick='$("#packages-popup").bPopup({position: [0,0]});'><?=$buttonContent?></span>
 <!--END BUTTON------------------------------------------------------------->
 <!--POPUP------------------------------------------------------------------>
 <div id="packages-popup" class='col-xs-12' style="z-index: 9999; opacity: 0; display: none;">
