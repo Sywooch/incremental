@@ -2,13 +2,14 @@
 //Displays a paypal button for purchasing packages. Redirects to a successful purchase page.
 //Pass In:
 // packageId - The id for the package we are buying.
+// game - The id for the game.
 
 use app\models\PremiumPackage;
 $package = PremiumPackage::findOne($packageId);
 
 //returnUrl: The url to return to when the purchase is complete.
 //$returnUrl = "http://www.google.com";
-$returnUrl = Yii::getAlias("@url") . "/frontend/web/premium-package/thank-you";
+$returnUrl = Yii::getAlias("@url") . "/frontend/web/premium-package/thank-you?owner=$game";
 ?>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">

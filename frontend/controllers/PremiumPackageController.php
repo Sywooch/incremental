@@ -142,8 +142,8 @@ class PremiumPackageController extends Controller
     //  Redirect back to game view.
     public function actionThankYou()
     {
-        $paymentAmount = $_POST['payment_gross'];
-        $packageId = $_POST['item_number'];
+        $paymentAmount = $_GET['amt'];
+        $packageId = $_GET['item_number'];
         
         echo "AMOUNT: " . $paymentAmount . "<br/>";
         echo "PACKAGE: " . $packageId . "<br/>";
