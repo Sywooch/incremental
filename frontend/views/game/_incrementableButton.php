@@ -66,7 +66,9 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
                 </div>
             </div>
             <div class=row">
+                <?php if($isOwner) { ?>
                 <a class="btn btn-success" onclick="$.purchaseIncrementable(<?=$incrementable->id?>, <?=$game->id?>, '<?= Yii::$app->request->baseUrl ?>', $('.counter').data('incrementalcounter'))"><?= $level > 0 ? "Upgrade" : "Purchase" ?></a>
+                <?php } //End if($isOwner) ?>
             </div>
         </div>
     </display>

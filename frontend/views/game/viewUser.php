@@ -38,7 +38,7 @@ if(!Yii::$app->user->isGuest)
     <h1><?= Html::encode($this->title) ?></h1>
     
     <!--NOTIFICATION----------------------------------------------------------->
-    <?php if($messageType != "none") { ?>
+    <?php if(isset($messageType) && $messageType != "none") { ?>
         <div class="alert alert-success">
             <?=$message?>
         </div>
