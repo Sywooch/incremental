@@ -20,7 +20,7 @@ $currentClickIncrement = $game->getPointsPerClick();
     </div>
     <div class='col-md-6 col-xs-12 text-right'>
         <h1>
-            <span style='vertical-align:bottom;'><?=$game->premium?></span>
+            <span class='premium' style='vertical-align:bottom;'><?=$game->premium?></span>
             <?= $this->render('/widgets/icon/bottle', ['type'=>'premium', 'size'=>1.5]) ?>
         </h1>
         <!--Premium Purchase Button -->

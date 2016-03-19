@@ -54,7 +54,14 @@
                     //Update counter info.
                     var newPointLevel = data[4];
                     var newProductionLevel = data[5];
+                    var newPremium = data[8];
                     $.updateCounterDisplay(incrementalcounter, newPointLevel, newProductionLevel);
+                    $('.premium').text(newPremium);
+                }
+                else if(message == 'prompt-premium')
+                {
+                    //Display premium prompt.
+                    $('#packages-popup').bPopup({position: [0,0]});
                 }
             },
             error: function (data) {

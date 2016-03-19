@@ -36,9 +36,9 @@ class Incrementable extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'urlIcon', 'urlIconUnknown', 'urlBio', 'urlBioUnknown', 'urlArt', 'initialCost', 'initialProduction', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'required'],
+            [['name', 'description', 'urlIcon', 'urlIconUnknown', 'urlBio', 'urlBioUnknown', 'urlArt', 'initialCost', 'initialProduction', 'created_at', 'created_by', 'updated_at', 'updated_by', 'active', 'premiumCost'], 'required'],
             [['description'], 'string'],
-            [['initialCost', 'initialProduction', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['initialCost', 'initialProduction', 'created_at', 'created_by', 'updated_at', 'updated_by', 'premiumCost', 'active'], 'integer'],
             [['name', 'urlIcon', 'urlBio', 'urlArt', 'urlIconUnknown', 'urlBioUnknown'], 'string', 'max' => 255]
         ];
     }
@@ -69,6 +69,13 @@ class Incrementable extends \yii\db\ActiveRecord
         if($level == 0)
             return $this->initialCost;
         return round((.86 * $this->initialCost) * exp(.1385 * $level), $precision);
+    }
+    
+    public function getPremiumCostForLevel($level, $precision = 0)
+    {
+        if($level == 0)
+            return $this->premiumCost;
+        return round((.86 * $this->premiumCost) * exp(.1385 * $level), $precision);
     }
     
     public function getProductionForLevel($level, $precision = 0)

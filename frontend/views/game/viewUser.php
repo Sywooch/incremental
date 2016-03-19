@@ -52,6 +52,16 @@ if(!Yii::$app->user->isGuest)
                 <?= $this->render('/widgets/counter/_gameCounter', [
                     'game' => $model,
                 ]) ?>
+                <div>
+                    <p>
+                        <span class='lead'>
+                            Efficiency: <span class='efficiency'><?= ($model->efficiency * 100) - 60 ?></span>% 
+                        </span>
+                        <?php if($isOwner) { ?>
+                        <?= $this->render('_efficiency', ['buttonContent' => '<a href="#">Upgrade...</a>', 'game' => $model->id]) ?>
+                        <?php } //End if($isOwner) ?>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

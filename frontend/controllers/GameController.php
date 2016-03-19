@@ -191,6 +191,7 @@ class GameController extends Controller
         //Update game points.
         $game->updatePoints();
         $incrementableId = $_POST['incrementable'];
+        $incrementable = Incrementable::findOne($incrementableId);
         //Perform purchase.
         $purchaseWasSuccessful = $game->purchaseIncrementable($incrementableId);
         //Determine our error/success status.
@@ -198,17 +199,28 @@ class GameController extends Controller
         if($purchaseWasSuccessful)
             $message = "success";
         else
-            $message = "failure";
+        {
+            if($incrementable->premiumCost > 0)
+                $message = "prompt-premium";
+            else
+                $message = "failure";
+        }
+            
         //Determine our new info for this upgrade.
+        $wasPremium = $incrementable->premiumCost > 0;
         $newLevel = $game->getLevelOfIncrementable($incrementableId);
         $incrementable = Incrementable::findOne($incrementableId);
-        $newCost = $incrementable->getCostForLevel($newLevel);
+        if($incrementable->premiumCost > 0)
+            $newCost = $incrementable->getPremiumCostForLevel($newLevel);
+        else
+            $newCost = $incrementable->getCostForLevel($newLevel);
         $newProduction = $incrementable->getProductionForLevel($newLevel);
         $newGamePoints = $game->points;
         $newGameProduction = $game->getPointsPerUpdate();
         $newName = $incrementable->name;
         $newBio = $incrementable->urlBio;
-        echo json_encode([$message, $newLevel, $newCost, $newProduction, $newGamePoints, $newGameProduction, $newName, $newBio]); exit;
+        $newPremium = $game->premium;
+        echo json_encode([$message, $newLevel, $newCost, $newProduction, $newGamePoints, $newGameProduction, $newName, $newBio, $newPremium]); exit;
     }
     
     //Performs purchase of tap upgrade and returns information for the ajax.
@@ -244,5 +256,27 @@ class GameController extends Controller
         //Calculate our tap value.
         $tapValue = $game->getPointsPerClick();
         echo json_encode([$tapValue]); exit;
+    }
+    
+    public function actionPurchaseEfficiencyUpgrade($costToUpgrade = 1000, $efficiencyIncrease = 0.2)
+    {
+        //Get our game.
+        $game = Game::findOne(intval($_POST['game']));
+        //Check funds.
+        $message = "failure";
+        $newPremium = 0;
+        $newEfficiency = 0;
+        $newIncrement = 0;
+        if($game->premium >= $costToUpgrade)
+        {
+            $game->premium -= $costToUpgrade;
+            $game->efficiency += $efficiencyIncrease;
+            $game->save();
+            $message = 'success';
+            $newPremium = $game->premium;
+            $newEfficiency = ($game->efficiency * 100) - 60;
+            $newIncrement = $game->getPointsPerUpdate();
+        }
+        echo json_encode([$message, $newPremium, $newEfficiency, $newIncrement]); exit;
     }
 }

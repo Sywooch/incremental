@@ -143,25 +143,37 @@ class Game extends \yii\db\ActiveRecord
         if($connection)
             $currentLevel = $connection->level;
         //Determine if we can buy this upgrade.
-        $cost = $incrementable->getCostForLevel($currentLevel);
-        if($this->points >= $cost)
+        $premiumPurchase = $incrementable->premiumCost > 0;
+        $cost = 0;
+        if($premiumPurchase)
+            $cost = $incrementable->getPremiumCostForLevel($currentLevel);
+        else
+            $cost = $incrementable->getCostForLevel($currentLevel);
+        if(!$premiumPurchase && ($this->points >= $cost))
         {
             $this->points -= $cost;
             $this->save();
-            //Create our new connection (if needed).
-            if($connection)
-                $connection->level++;
-            else {
-                $connection = new IncrementableConnections();
-                $connection->owner = $this->user;
-                $connection->incrementable = $incrementableId;
-                $connection->level = 1;
-            }
-            $connection->save();
-            return true;
+        }
+        else if($premiumPurchase && ($this->premium >= $cost))
+        {
+            $this->premium -= $cost;
+            $this->save();
         }
         else
+        {
             return false;
+        }
+        //Create our new connection (if needed).
+        if($connection)
+            $connection->level++;
+        else {
+            $connection = new IncrementableConnections();
+            $connection->owner = $this->user;
+            $connection->incrementable = $incrementableId;
+            $connection->level = 1;
+        }
+        $connection->save();
+        return true;
     }
     
     //Get the level of the given incrementable for this game.

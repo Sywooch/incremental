@@ -27,8 +27,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'urlArt')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'initialCost')->textInput() ?>
+    
+    <?= $form->field($model, 'premiumCost')->textInput() ?>
 
     <?= $form->field($model, 'initialProduction')->textInput() ?>
+    
+    <?= $form->field($model, 'active')->dropDownList([1 => 'True', 0 => 'False']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
