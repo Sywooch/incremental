@@ -148,7 +148,7 @@ class PremiumPackageController extends Controller
         //TODO log the transaction.
         $paypalreqs = "Your transaction has been completed and a receipt for your purchase has been emailed to you. ";
         $shamemessage = "";
-        $messagetype = "good";
+        $messageType = "good";
         
         //Verify payment.
         $paymentAmount = $_GET['amt'];
