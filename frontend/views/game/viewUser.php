@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * PASS IN
+ *  message - Notification message.
+ *  messageType = Notification type. "none" if no notification is to be displayed.
+ */
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Incrementable;
@@ -31,9 +37,13 @@ if(!Yii::$app->user->isGuest)
 
     <h1><?= Html::encode($this->title) ?></h1>
     
-    <div>
-    <?= $this->render('/premium-package/_popup') ?>
-    </div>
+    <!--NOTIFICATION----------------------------------------------------------->
+    <?php if($messageType != "none") { ?>
+        <div class="alert alert-success">
+            <?=$message?>
+        </div>
+    <?php } //End if($messageType != "none") ?>
+    <!--END NOTIFICATION------------------------------------------------------->
 
     <!--COUNTER WIDGET--------------------------------------------------------->
     <div class="portlet solid light col-md-8 col-md-offset-2 col-xs-12">

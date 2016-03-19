@@ -13,6 +13,9 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\User;
 
+//For Purchase
+use app\models\Game;
+
 /**
  * PremiumPackageController implements the CRUD actions for PremiumPackage model.
  */
@@ -142,11 +145,43 @@ class PremiumPackageController extends Controller
     //  Redirect back to game view.
     public function actionThankYou()
     {
+        //TODO log the transaction.
+        $paypalreqs = "Your transaction has been completed and a receipt for your purchase has been emailed to you. ";
+        $shamemessage = "";
+        $messagetype = "good";
+        
+        //Verify payment.
         $paymentAmount = $_GET['amt'];
         $packageId = $_GET['item_number'];
+        $owner = $_GET['owner'];
         
-        echo "AMOUNT: " . $paymentAmount . "<br/>";
-        echo "PACKAGE: " . $packageId . "<br/>";
-        return;
+        $package = PremiumPackage::findOne($packageId);
+        $scalar = $paymentAmount / $package->costReal;
+        $premiumPurchased = 0;
+        if($scalar >= 1)
+            $premiumPurchased = $package->premiumGained;
+        else
+        {
+            $premiumPurchased = $package->premiumGained * $scalar;
+            $shamemessage = "Through tom-foolery, you attempted to pay a fraction "
+                    . "of the amount due. For your troubles you will be awarded "
+                    . "only a fraction of the currency you were trying to cheat "
+                    . "from the dwarves. ";
+            $messageType = "bad";
+        }
+        
+        //Generate message.
+        $message = "Thank you for your purchase! ";
+        $message .= $paypalreqs;
+        $message .= $shamemessage;
+        $message .= "You have been awarded $premiumPurchased special brew!";
+        
+        //Award premium.
+        $game = Game::findOne($owner);
+        $game->premium += $premiumPurchased;
+        $game->save();
+        
+        //Go back to the game.
+        $this->redirect(['game/view-world', 'message' => $message, 'messageType' => $messageType]);
     }
 }

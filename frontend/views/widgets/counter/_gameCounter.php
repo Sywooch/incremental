@@ -24,11 +24,14 @@ $currentClickIncrement = $game->getPointsPerClick();
             <?= $this->render('/widgets/icon/bottle', ['type'=>'premium', 'size'=>1.5]) ?>
         </h1>
         <!--Premium Purchase Button -->
-        <p class='lead'>
-            <?= $this->render('/premium-package/_popup', [
-                'buttonContent' => '<a href="#">Get More!</a>'
-            ])?>
-        </p>
+        <?php if(!Yii::$app->user->isGuest) { ?>
+            <p class='lead'>
+                <?= $this->render('/premium-package/_popup', [
+                    'buttonContent' => '<a href="#">Get More!</a>',
+                    'game' => Yii::$app->user->identity->id,
+                ])?>
+            </p>
+        <?php } //End if(!isGuest) ?>
     </div>
 </div>
 

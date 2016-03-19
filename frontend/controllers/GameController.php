@@ -79,11 +79,13 @@ class GameController extends Controller
         ]);
     }
     
-    public function actionViewWorld()
+    public function actionViewWorld($message="", $messageType="none")
     {
         $model = Game::find()->where(['user'=>Yii::$app->user->identity->id])->one();
         return $this->render('viewUser', [
             'model' => $model,
+            'message' => $message,
+            'messageType' => $messageType,
         ]);
     }
     
