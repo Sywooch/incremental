@@ -9,6 +9,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Incrementable;
+use app\models\Achievement;
 use yii\data\ActiveDataProvider;
 
 use common\models\User;
@@ -24,6 +25,9 @@ $model->updatePoints();
 //Determine our incrementables.
 $dataProvider = new ActiveDataProvider([
         'query' => Incrementable::find(),
+    ]);
+$achievementProvider = new ActiveDataProvider([
+        'query' => Achievement::find(),
     ]);
 //Determine if we are the owner.
 $isOwner = false;
@@ -118,7 +122,7 @@ if(!Yii::$app->user->isGuest)
                     <a href="#portlet_tab1" data-toggle="tab">INCREMENTABLES</a>
                 </li>
                 <li>
-                    <a href="#portlet_tab2" data-toggle="tab">ACHIEVEMENTS</a>
+                    <a href="#portlet_tab2" data-toggle="tab">SPECIAL BREWS</a>
                 </li>
                 <li>
                     <a href="#portlet_tab3" data-toggle="tab">STATISTICS</a>
@@ -136,12 +140,15 @@ if(!Yii::$app->user->isGuest)
                     </div>
                 </div>
                 <!--END INCREMENTABLE TAB-->
+                <!--ACHIEVEMENT TAB-->
                 <div class="tab-pane" id="portlet_tab2">
-                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><div class="scroller" style="height: 200px; overflow: hidden; width: auto;" data-initialized="1">
-                        <h4>ACHIEVEMENTS</h4>
-                        ACHIEVEMETNS GO HERE
-                    </div><div class="slimScrollBar" style="width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
+                    <div class="slimScrollDiv">
+                        <div class="scroller" data-initialized="1">
+                        <?= $this->render('_tab_achievements', ['model' => $model, 'achievementProvider' => $achievementProvider, 'userIsOwner' => $isOwner]) ?>
+                        </div>
+                    </div>
                 </div>
+                <!--END ACHIEVEMENT TAB-->
                 <div class="tab-pane" id="portlet_tab3">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><div class="scroller" style="height: 200px; overflow: hidden; width: auto;" data-initialized="1">
                         <h4>STATISTICS</h4>

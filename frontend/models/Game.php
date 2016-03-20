@@ -12,6 +12,7 @@ use Omnipay\Omnipay;
 use app\models\PremiumProduct;
 
 use app\models\Achievement;
+use app\models\AchievementConnections;
 
 /**
  * This is the model class for table "game".
@@ -309,6 +310,10 @@ class Game extends \yii\db\ActiveRecord
     
     public function meetsAchievementRequirements($achievementId)
     {
+        //Do we already have the achievement?
+        $connection = AchievementConnections::find()->where(['owner'=>$this->user, 'achievement'=>$achievementId])->one();
+        if($connection)
+            return true;
         //Find our achievement.
         $achievement = Achievement::findOne($achievementId);
         $req1 = false;
@@ -340,12 +345,21 @@ class Game extends \yii\db\ActiveRecord
         }
         //Check if we meet requirements.
         if(!$req1)
-            $req1 = $level1 >= $achievement->value1;
+            $req1 = ($level1 >= $achievement->value1);
         if(!$req2)
-            $req2 = $level2 >= $achievement->value2;
+            $req2 = ($level2 >= $achievement->value2);
         if(!$req3)
-            $req3 = $level3 >= $achievement->value3;
-        //Return our success value.
-        return ($req1 && $req2 && $req3);
+            $req3 = ($level3 >= $achievement->value3);
+        //Do we meet the requirements now?
+        if($req1 && $req2 && $req3)
+        {
+            $connection = new AchievementConnections();
+            $connection->owner = $this->user;
+            $connection->achievement = $achievementId;
+            $connection->save();
+            return true;
+        }
+        else
+            return false;
     }
 }
