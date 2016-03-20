@@ -11,6 +11,8 @@ use app\models\PremiumPackage;
 use Omnipay\Omnipay;
 use app\models\PremiumProduct;
 
+use app\models\Achievement;
+
 /**
  * This is the model class for table "game".
  *
@@ -38,7 +40,7 @@ class Game extends \yii\db\ActiveRecord
     {
         return [
             [['user', 'created_at', 'updated_at'], 'required'],
-            [['user', 'created_at', 'updated_at', 'points', 'lastIncrease', 'premium', 'tap'], 'integer'],
+            [['user', 'created_at', 'updated_at', 'points', 'lastIncrease', 'premium', 'tap', 'incrementableCount'], 'integer'],
             [['efficiency'], 'number']
         ];
     }
@@ -173,6 +175,8 @@ class Game extends \yii\db\ActiveRecord
             $connection->level = 1;
         }
         $connection->save();
+        $this->incrementableCount += 1;
+        $this->save();
         return true;
     }
     
@@ -301,5 +305,47 @@ class Game extends \yii\db\ActiveRecord
         }
         echo $result->getState();
         return true;
+    }
+    
+    public function meetsAchievementRequirements($achievementId)
+    {
+        //Find our achievement.
+        $achievement = Achievement::findOne($achievementId);
+        $req1 = false;
+        $req2 = false;
+        $req3 = false;
+        //Check if a requirement is needed at all.
+        if($achievement->incrementable1 <= 0)
+            $req1 = true;
+        if($achievement->incrementable2 <= 0)
+            $req2 = true;
+        if($achievement->incrementable3 <= 0)
+            $req3 = true;
+        //Get the levels of the given incrementables.
+        $level1 = 0;
+        if(!$req1)
+            $level1 = $this->getLevelOfIncrementable($achievement->incrementable1);
+        $level2 = 0;
+        if(!$req2)
+            $level2 = $this->getLevelOfIncrementable($achievement->incrementable2);
+        $level3 = 0;
+        if(!$req3)
+            $level3 = $this->getLevelOfIncrementable($achievement->incrementable3);
+        //Check if the requirements use percentages.
+        if($achievement->usesPercentage)
+        {
+            $level1 = floor(($level1 / $this->incrementableCount) * 100);
+            $level2 = floor(($level2 / $this->incrementableCount) * 100);
+            $level3 = floor(($level3 / $this->incrementableCount) * 100);
+        }
+        //Check if we meet requirements.
+        if(!$req1)
+            $req1 = $level1 >= $achievement->value1;
+        if(!$req2)
+            $req2 = $level2 >= $achievement->value2;
+        if(!$req3)
+            $req3 = $level3 >= $achievement->value3;
+        //Return our success value.
+        return ($req1 && $req2 && $req3);
     }
 }
