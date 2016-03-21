@@ -11,6 +11,7 @@ use yii\widgets\DetailView;
 use app\models\Incrementable;
 use app\models\Achievement;
 use yii\data\ActiveDataProvider;
+use yii\widgets\Pjax;
 
 use common\models\User;
 
