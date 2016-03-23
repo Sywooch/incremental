@@ -125,9 +125,9 @@ if(!Yii::$app->user->isGuest)
                 <li>
                     <a href="#portlet_tab2" data-toggle="tab">SPECIAL BREWS</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="#portlet_tab3" data-toggle="tab">STATISTICS</a>
-                </li>
+                </li>-->
             </ul>
         </div>
         <div class="portlet-body">
@@ -150,12 +150,16 @@ if(!Yii::$app->user->isGuest)
                     </div>
                 </div>
                 <!--END ACHIEVEMENT TAB-->
+                <!--STATISTIC TAB-->
+                <!--
                 <div class="tab-pane" id="portlet_tab3">
                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><div class="scroller" style="height: 200px; overflow: hidden; width: auto;" data-initialized="1">
                         <h4>STATISTICS</h4>
                         STATISTICS GO HERE
                     </div><div class="slimScrollBar" style="width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; background: rgb(187, 187, 187);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
                 </div>
+                -->
+                <!--END STATISTIC TAB-->
             </div>
         </div>
     </div>
