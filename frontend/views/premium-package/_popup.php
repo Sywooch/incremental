@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
 //Default button.
 if(!isset($buttonContent))
-    $buttonContent = "<a class='btn btn-success' href='#'>+</a>";
+    $buttonContent = "<a class='btn btn-success'>Get Rich!</a>";
 
 //Include CSS and JS.
 $this->registerCssFile(Yii::getAlias("@web") . "/css/components-rounded.min.css");

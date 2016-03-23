@@ -27,7 +27,7 @@ $currentClickIncrement = $game->getPointsPerClick();
         <?php if(!Yii::$app->user->isGuest) { ?>
             <p class='lead'>
                 <?= $this->render('/premium-package/_popup', [
-                    'buttonContent' => '<a href="#">Get More!</a>',
+                    'buttonContent' => '<a>Get More!</a>',
                     'game' => Yii::$app->user->identity->id,
                 ])?>
             </p>

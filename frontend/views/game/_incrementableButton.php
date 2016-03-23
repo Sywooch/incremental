@@ -40,7 +40,7 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
                 / second
             </div>
         </div>
-        <a class="more" href="#" onclick='$("#<?=$incrementable->id?>-popup").bPopup({position: [0, 0]});'> Details...
+        <a class="more" onclick='$("#<?=$incrementable->id?>-popup").bPopup({position: [0, 0]});'> Details...
             <i class="m-icon-swapright m-icon-white"></i>
         </a>
     </div>

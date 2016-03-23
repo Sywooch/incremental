@@ -93,7 +93,7 @@ if(!Yii::$app->user->isGuest)
         <div class="portlet-body">
             <div class="tab-content">
                 <div class='col-md-6 col-xs-12'>
-                    <a href='#' class='btn btn-success col-xs-12' onclick="$.performTap(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))"><h3>Brew!</h3></a>
+                    <a  class='btn btn-success col-xs-12' onclick="$.performTap(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))"><h3>Brew!</h3></a>
                     <p class='lead'>
                         <span style='vertical-align:bottom;'>
                             Produces: <span class='clicker-production' style='vertical-align:bottom;'><?=$model->getPointsPerClick()?></span>
@@ -101,7 +101,7 @@ if(!Yii::$app->user->isGuest)
                         </span>
                 </div>
                 <div class='col-md-6 col-xs-12 text-right'>
-                    <a href='#' class='btn btn-primary col-xs-12' onclick="$.purchaseTapUpgrade(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))"><h3>Upgrade</h3></a>
+                    <a class='btn btn-primary col-xs-12' onclick="$.purchaseTapUpgrade(<?=$model->id?>, '<?= Yii::$app->request->baseUrl ?>',$('.counter').data('incrementalcounter'))"><h3>Upgrade</h3></a>
                     <p class='lead'>
                         <span style='vertical-align:bottom;'>
                             Costs: <span class='clicker-cost' style='vertical-align:bottom;'><?=$model->getCostToUpgradeClick()?></span>

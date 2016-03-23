@@ -1,5 +1,7 @@
 <?php
 use app\models\Game;
+use yii\data\ActiveDataProvider;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 //Pass In
@@ -50,19 +52,11 @@ $colorClass = 'red-haze';
                 Brewery
                 </div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body text-center">
                 <?php if(!$model) { ?>
-                        Display an ad.
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
+                        <?= Html::a('Signup!', 'site/signup', ['class' => 'btn btn-success']) ?>
                 <?php } else { ?>
-                        Display the game.
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
+                        <?= Html::a('Play!', 'game/view-world', ['class' => 'btn btn-success']) ?>
                 <?php } //End if($model == null) ?>
             </div>
         </div>
@@ -80,7 +74,15 @@ $colorClass = 'red-haze';
                 </div>
             </div>
             <div class="portlet-body text-center">
-                We will display news here.
+                <p class="lead">
+                    In the dwarfish realms, beer is money!
+                </p>
+                <p class="text-center">
+                    <?= $this->render('/premium-package/_popup', [
+                        'buttonContent' => "<a class='btn btn-success'>Get Rich!</a>",
+                        'game' => Yii::$app->user->identity->id,
+                    ])?>
+                </p>
             </div>
         </div>
     </div>
@@ -99,7 +101,9 @@ $colorClass = 'red-haze';
                 </div>
             </div>
             <div class="portlet-body text-center">
-                We will display news here.
+                <p class="lead">
+                Thank you for testing beta 10b3! Be sure to share with your friends!
+                </p>
             </div>
         </div>
     </div>
@@ -116,7 +120,19 @@ $colorClass = 'red-haze';
                 </div>
             </div>
             <div class="portlet-body">
-                Here we will display our about information.
+                <p class='lead'>
+                    <i>Ten Billion Bottles of Beer</i> is a simple game. Brew Beer. 
+                    Recruit Dwarves. Brew more Beer. Despite the simplicity, 
+                    however, 10b3 marks a special moment for me. I recently accepted
+                    an internship at a web development company. With this new job,
+                    I haven't had time to keep up with my traditional game 
+                    development. 10b3 is different in that it is completely coded
+                    in PHP and Javascript. This allowed me to hone my web development
+                    skills while still keeping up with a hobby that I love. I know
+                    it may not be the prettiest, but I'm rather proud of 10b3 
+                    simply because its the first step in a new, strange, and (hopefully)
+                    long career in web development!
+                </p>
             </div>
         </div>
     </div>
@@ -127,6 +143,16 @@ $colorClass = 'red-haze';
     <!--TOP USERS---------------------------------------------------------------
     Displays the top users.
     -->
+    <?php
+        $pointProvider = new ActiveDataProvider([
+            'query' => Game::find()->limit(20),
+            'sort'=> ['defaultOrder' => ['points'=>SORT_DESC]]
+        ]);
+        $productionProvider = new ActiveDataProvider([
+            'query' => Game::find()->limit(20),
+            'sort'=> ['defaultOrder' => ['lastIncrease'=>SORT_DESC]]
+        ]);
+    ?>
     <div class='col-xs-12'>
         <div class="portlet box <?=$colorClass?>">
             <div class="portlet-title">
@@ -145,14 +171,28 @@ $colorClass = 'red-haze';
             <div class="portlet-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="portlet_tab_1">
-                        <p>
+                        <p class="lead">
                             The brewmasters listed below run the most efficient breweries in the dwarfish realm.
                         </p>
+                        <?php foreach($productionProvider->models as $productionModel) { ?>
+                        <?= Html::a($productionModel->getUsername(), ['game/view-game', 'id'=>$productionModel->id]) ?>
+                        :
+                        <?= $productionModel->lastIncrease ?>
+                        <?= $this->render('/widgets/icon/bottle', ['type'=>'basic', 'size'=>1.5]) ?> / second
+                        <br/>
+                        <?php } //End foreach($productionProvider->models ?>
                     </div>
                     <div class="tab-pane" id="portlet_tab_2">
-                        <p>
+                        <p class="lead">
                             The brewasters listed below are famed among the dwarfish clans for their vast hoards of beer.
                         </p>
+                        <?php foreach($pointProvider->models as $productionModel) { ?>
+                        <?= Html::a($productionModel->getUsername(), ['game/view-game', 'id'=>$productionModel->id]) ?>
+                        :
+                        <?= $productionModel->points ?>
+                        <?= $this->render('/widgets/icon/bottle', ['type'=>'basic', 'size'=>1.5]) ?>
+                        <br/>
+                        <?php } //End foreach($productionProvider->models ?>
                     </div>
                 </div>
             </div>

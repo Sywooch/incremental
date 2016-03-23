@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 
+use common\models\User;
+
 use app\models\IncrementableConnections;
 use app\models\Incrementable;
 
@@ -61,6 +63,11 @@ class Game extends \yii\db\ActiveRecord
         ];
     }
     
+    public function getUsername()
+    {
+        return User::findOne($this->user)->username;
+    }
+    
     //Update our points.
     //  secondsInInterval - Indicates how many seconds are in a single interval.
     //      EG: $secondsInInterval = 60 => Update once per minute.
@@ -79,7 +86,7 @@ class Game extends \yii\db\ActiveRecord
         $this->points += $pointIncrease;
         $this->lastIncrease = $pointsPerUpdate;
         $this->updated_at = $this->updated_at + ($numUpdates * $secondsInInterval);
-        $this->save();
+        $this->save(false);
     }
     
     //Calculate our points per update interval.
@@ -310,6 +317,7 @@ class Game extends \yii\db\ActiveRecord
     
     public function meetsAchievementRequirements($achievementId)
     {
+        if($this->incrementableCount == 0) return false;
         //Do we already have the achievement?
         $connection = AchievementConnections::find()->where(['owner'=>$this->user, 'achievement'=>$achievementId])->one();
         if($connection)
