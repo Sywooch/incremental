@@ -73,6 +73,7 @@ if(!Yii::$app->user->isGuest)
     <!--END COUNTER WIDGET----------------------------------------------------->
     
     <!--GAME SCREEN------------------------------------------------------------>
+    <!--UNIMPLEMENTED
     <div class="portlet solid light col-md-8 col-md-offset-2 col-xs-12">
         <div class="portlet-title tabbable-line">
             <div class="caption">
@@ -85,8 +86,9 @@ if(!Yii::$app->user->isGuest)
             </div>
         </div>
     </div>
+    -->
     <!--END GAME SCREEN-------------------------------------------------------->
-
+    
     <?php if($isOwner) { ?>
     <!--CLICKER WIDGET--------------------------------------------------------->
     <div class="portlet solid light col-md-8 col-md-offset-2 col-xs-12">
