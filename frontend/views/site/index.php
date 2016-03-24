@@ -10,7 +10,6 @@ use yii\helpers\Html;
 $this->title = '10 Billion Bottles Of Beer';
 
 $colorClass = 'red-haze';
-</script>
 ?>
 <div class="site-index">
 

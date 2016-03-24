@@ -26,12 +26,12 @@ switch($type)
 {
     case 'basic':
         //TODO add a tooltip.
-        $image = "/img/brews/brown-glass.png";
+        $image = Yii::getAlias("@web") .  "/img/brews/brown-glass.png";
         $name = "Dwarven Brew";
         $description = "A mild ale of dwarven make. It is used as a currency throughout the realm.";
         break;
     case 'premium':
-        $image = "/img/brews/purple-to-pink.png";
+        $image = Yii::getAlias("@web") .  "/img/brews/purple-to-pink.png";
         $name = "Redbeard Reserve";
         $description = "Worth its weight in gold, this rich rum has been aged longer than most dwarves have lived.";
         break;
@@ -47,7 +47,7 @@ switch($type)
 ?>
 
 <!--Bottle Widget-->
-<img class='tooltip-<?=$id?>' src="<?=Yii::getAlias("@web") . $image?>" style="height:<?=$size?>em;" />
+<img class='tooltip-<?=$id?>' src="<?=$image?>" style="height:<?=$size?>em;" />
 <!--End Bottle Widget-->
 
 <!--Tooltip Script-->
