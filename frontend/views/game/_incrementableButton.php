@@ -26,7 +26,6 @@ $this->registerJsFile(Yii::getAlias("@web") . "/js/incremental-controller.js", [
         </div>
         <div class='details-left'>
             <div class='number'>
-                <img src="<?=$incrementable->urlIcon?>"/>
                 <span class="name-<?=$incrementable->id?>"><?= $level > 0 ? $incrementable->name : "???" ?></span>
             </div>
         </div>
