@@ -55,7 +55,7 @@ switch($type)
 $tooltipContent = "";
 $tooltipContent .= '<div>';
 $tooltipContent .= '<div class="tooltip-name-common">' . $name . "</div>";
-$tooltipContent .= '<div class="tooltip-description">' . $description . "</div>";
+$tooltipContent .= '<div class="tooltip-description">' . addslashes($description) . "</div>";
 if($flavor != "")
     $tooltipContent .= '<div class="tooltip-flavor">"' . $flavor . '"' . "</div>";
 $tooltipContent .= "</div>";
