@@ -25,7 +25,7 @@ $achieved = $game->meetsAchievementRequirements($achievement->id);
                 <?php } else { ?>
                 ? IMG
                 <?php } ?>
-                <span class="name-<?=$achievement->id?>"><?= $achieved ? $achievement->name : "???" ?></span>
+                <span class="aname-<?=$achievement->id?>"><?= $achieved ? $achievement->name : "???" ?></span>
             </div>
         </div>
         <div class="details">
